@@ -1,0 +1,118 @@
+{
+  "n_series": 24000,
+  "horizon": 8,
+  "scores_on_official_test": {
+    "Ensemble": {
+      "sMAPE": 9.80381,
+      "MASE": 1.12995,
+      "OWA": 0.85769
+    },
+    "LightGBM": {
+      "sMAPE": 9.89506,
+      "MASE": 1.13185,
+      "OWA": 0.86253
+    },
+    "AutoETS": {
+      "sMAPE": 10.24559,
+      "MASE": 1.15985,
+      "OWA": 0.88867
+    },
+    "Theta": {
+      "sMAPE": 10.31893,
+      "MASE": 1.23265,
+      "OWA": 0.91857
+    },
+    "Naive2": {
+      "sMAPE": 11.0059,
+      "MASE": 1.3703,
+      "OWA": 1.0
+    },
+    "Naive": {
+      "sMAPE": 11.61027,
+      "MASE": 1.47703,
+      "OWA": 1.0664
+    },
+    "SeasonalNaive": {
+      "sMAPE": 12.52137,
+      "MASE": 1.60225,
+      "OWA": 1.15348
+    }
+  },
+  "published_reference": {
+    "Naive2 (paper)": {
+      "sMAPE": 11.012,
+      "MASE": 1.371,
+      "OWA": 1.0
+    },
+    "Theta (paper)": {
+      "sMAPE": 10.311,
+      "MASE": 1.231,
+      "OWA": 0.917
+    },
+    "Comb S-H-D (paper benchmark)": {
+      "sMAPE": 10.186,
+      "MASE": 1.196,
+      "OWA": 0.899
+    },
+    "ES-RNN, Smyl (winner)": {
+      "sMAPE": 9.679,
+      "MASE": 1.111,
+      "OWA": 0.847
+    }
+  },
+  "ensemble_members": [
+    "Theta",
+    "AutoETS",
+    "LightGBM"
+  ],
+  "runtime_seconds": 1899.1,
+  "config": {
+    "paths": {
+      "train": "data/Quarterly-train.csv",
+      "test": "data/Quarterly-test.csv",
+      "info": "data/M4-info.csv",
+      "reports": "reports",
+      "artifacts": "artifacts"
+    },
+    "data": {
+      "frequency": "Quarterly",
+      "season_length": 4,
+      "horizon": 8,
+      "n_series": null,
+      "seed": 42
+    },
+    "baselines": {
+      "models": [
+        "Naive",
+        "SeasonalNaive",
+        "Naive2",
+        "Theta",
+        "AutoETS"
+      ],
+      "n_jobs": -1
+    },
+    "global_model": {
+      "n_lags": 20,
+      "params": {
+        "objective": "l1",
+        "n_estimators": 1500,
+        "learning_rate": 0.03,
+        "num_leaves": 63,
+        "min_child_samples": 50,
+        "subsample": 0.8,
+        "subsample_freq": 1,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 1.0,
+        "verbose": -1
+      },
+      "val_frac_series": 0.2
+    },
+    "ensemble": {
+      "members": [
+        "Theta",
+        "AutoETS",
+        "LightGBM"
+      ]
+    }
+  }
+}

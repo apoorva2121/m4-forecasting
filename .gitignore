@@ -1,0 +1,6 @@
+data/*.csv
+artifacts/
+reports/forecasts_*.parquet
+__pycache__/
+*.pyc
+.pytest_cache/

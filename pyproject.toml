@@ -1,0 +1,12 @@
+[project]
+name = "m4-forecasting"
+version = "0.1.0"
+description = "M4 Quarterly: statistical baselines, a global LightGBM, and a median ensemble evaluated on the official test set"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,44 @@
+# M4 Quarterly forecasting — configuration. Every tunable lives here.
+
+paths:
+  train: data/Quarterly-train.csv
+  test: data/Quarterly-test.csv
+  info: data/M4-info.csv
+  reports: reports
+  artifacts: artifacts
+
+data:
+  frequency: Quarterly
+  season_length: 4
+  horizon: 8
+  # Evaluate on a deterministic subset for fast iteration; null = all 24,000.
+  n_series: null
+  seed: 42
+
+baselines:
+  # Fitted with statsforecast, all series in parallel. Naive2 is the M4 reference
+  # method (seasonally-adjusted naive) and defines the OWA denominator.
+  models: [Naive, SeasonalNaive, Naive2, Theta, AutoETS]
+  n_jobs: -1
+
+global_model:
+  # One LightGBM model across all series on lag windows ("global" / cross-learning).
+  n_lags: 20
+  # Direct multi-horizon: one model per step ahead (8 models) — no recursion error.
+  params:
+    objective: l1
+    n_estimators: 1500
+    learning_rate: 0.03
+    num_leaves: 63
+    min_child_samples: 50
+    subsample: 0.8
+    subsample_freq: 1
+    colsample_bytree: 0.8
+    reg_lambda: 1.0
+    verbose: -1
+  # Internal validation: hold out the last `horizon` points of each training series.
+  val_frac_series: 0.2
+
+ensemble:
+  # Median of the named model forecasts. Median is robust to a single bad member.
+  members: [Theta, AutoETS, LightGBM]
