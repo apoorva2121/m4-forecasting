@@ -172,3 +172,7 @@ reports/results.json
 2. Per-series scaling by the seasonal-naive MAE (the MASE denominator) instead of the mean — aligns training with the metric.
 3. N-BEATS-style MLP as a fourth member; the winning method's edge was neural.
 4. Extend to M4 Monthly (48,000 series, horizon 18) where the global model's advantage typically grows.
+
+## Licence
+
+[MIT](LICENSE). The M4 Competition dataset is published by the M4 team under its own terms and is **not** redistributed here — see Reproduce for how to download it.
