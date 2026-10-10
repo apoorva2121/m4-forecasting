@@ -1,10 +1,22 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
+import pytest
 
 from m4_forecasting.baselines import naive2_forecast
 from m4_forecasting.data import load_config, load_m4
 from m4_forecasting.global_model import build_training_set
 from m4_forecasting.metrics import mase, smape
+
+# The M4 CSVs are not committed - they belong to the M4 team and are 10MB+.
+# Tests that need them skip rather than fail, so `pytest` is green on a fresh
+# clone and the one test that genuinely needs data says so.
+M4_DATA = Path(__file__).resolve().parents[1] / "data" / "Quarterly-train.csv"
+needs_m4_data = pytest.mark.skipif(
+    not M4_DATA.exists(),
+    reason="M4 Quarterly data not present; see README > Reproduce to download it",
+)
 
 
 def test_smape_and_mase_basics():
@@ -21,6 +33,7 @@ def test_naive2_seasonal_series_reseasonalises():
     assert f.std() > 10
 
 
+@needs_m4_data
 def test_load_split_alignment():
     cfg = load_config(); cfg["data"]["n_series"] = 50
     train, test = load_m4(cfg)
